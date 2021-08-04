@@ -48,7 +48,7 @@ client.writeFC3(1, 1, 25, (err, data) => {
     let RH = data.data[2]*0.01;
     let CO2 = data.data[20];
      
-      pool0.getConnection(function(err, connection) {
+      pool.getConnection(function(err, connection) {
       //create table call "modbusData" and store Temperature, Humidity, CO2.
       let sql = "INSERT INTO modbusData (Temperature, Humidity, CO2) VALUES ?";
       let values = [[parseFloat(temp.toPrecision(12)), parseFloat(RH.toPrecision(12)), CO2]];
@@ -65,7 +65,7 @@ client.writeFC3(1, 1, 25, (err, data) => {
       });
     });
 ````
-modbusTCP部分
+modbusTCP部分<br>
 >在透過modbusTCP讀取資料時，請使用以下函式
 >```javascript
 >.writeFC3 (unit, address, length, callback) //Writes "Read Holding Registers" (FC=03) request to serial port.
@@ -75,7 +75,11 @@ modbusTCP部分
 >length {number} : 讀取資料長度<br>
 >callback {function} : 回呼函式，調用函式應為function(error, data) { ... }<br>
 
+MySQL部分
 >開啟連接池連線<br>
+>```javascript
+>pool.getConnection(function(err, connection) {...}};
+>```
 >將所需使用的SQL指令包裝進sql變數中<br>
 >透過查詢的方法來使用<br>
 >```javascript
@@ -87,3 +91,16 @@ modbusTCP部分
 >   .
 >   .
 >});
+
+最後在終端機顯示回傳的資料
+
+## 參考表格
+### server端資料
+No  |Register number 1-based |Register hex address |Content          |R/W |Signed unsigned   |Scaling | Unit
+--- |------------------------|-------------------- |----             |--- |----------------  |--------|------
+1   |40001                   |0x0000               |Temperature      |R   |signed integer    |1:100   |℃,°F
+2   |40003                   |0x0002               |Relative humidity|R   |unsigned integer  |1:100   |%
+3   |40021                   |0x0014               |Temperature      |R   |unsigned integer  |1:1     |ppm
+
+## 備註
+此程序一旦未讀取到資料，便會立即報錯。
