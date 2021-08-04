@@ -8,10 +8,10 @@ const client2 = new ModbusRTU();
 
 const networkErrors = ["ESOCKETTIMEDOUT", "ETIMEDOUT", "ECONNRESET", "ECONNREFUSED", "EHOSTUNREACH"];
 
-client0.connectTCP("192.168.1.19", { port: 502 })
+client0.connectTCP("XXX.XXX.XXX.XXX", { port: 502 })
   .then(setClient1)
   .then( () => {
-    console.log("Connect, serverID : 1, IP : 192.168.1.19");})
+    console.log("Connect, serverID : 1, IP : XXX.XXX.XXX.XXX");})
   .catch( (e) => {
     if(e.errno){
       if(networkErrors.includes(e.errno)){
@@ -25,10 +25,10 @@ function setClient1(){
   client0.setTimeout(1000);
   } 
      
-client1.connectTCP("192.168.1.92", { port: 502 })
+client1.connectTCP("XXX.XXX.XXX.XXX", { port: 502 })
   .then(setClient2)
   .then( () => {
-    console.log("Connect, serverID : 2, IP : 192.168.1.92");})
+    console.log("Connect, serverID : 2, IP : XXX.XXX.XXX.XXX");})
   .catch( (e) => {
     if(e.errno){
       if(networkErrors.includes(e.errno)){
@@ -42,10 +42,10 @@ function setClient2(){
   client1.setTimeout(1000);
   } 
   
-client1.connectTCP("192.168.1.11", { port: 502 })
+client1.connectTCP("XXX.XXX.XXX.XXX", { port: 502 })
   .then(setClient2)
   .then( () => {
-    console.log("Connect, serverID : 3, IP : 192.168.1.11");})
+    console.log("Connect, serverID : 3, IP : XXX.XXX.XXX.XXX");})
   .catch( (e) => {
     if(e.errno){
       if(networkErrors.includes(e.errno)){
@@ -63,26 +63,25 @@ const mysql = require('mysql');
 
 let pool0 = mysql.createPool({
   host: "localhost",
-  user: 'channel',
-  password: 'ching920430',
+  user: 'user',
+  password: 'password',
   database: "ModbusDB"
 });
 
 let pool1 = mysql.createPool({
   host: "localhost",
-  user: 'channel',
-  password: 'ching920430',
+  user: 'user',
+  password: 'password',
   database: "ModbusDB"
 });
 
 let pool2 = mysql.createPool({
   host: "localhost",
-  user: 'channel',
-  password: 'ching920430',
+  user: 'user',
+  password: 'password',
   database: "ModbusDB"
 });
 
-// 每隔5秒钟读取保持寄存器的值，从寄存器地址1开始读取，读10个寄存器到data数组中
 setInterval( () => {
 	
   client0.writeFC3(1, 1, 25, (err, data) => {
@@ -96,11 +95,11 @@ setInterval( () => {
       let values = [[parseFloat(temp.toPrecision(12)), parseFloat(RH.toPrecision(12)), CO2]];
       connection.query(sql, [values], function (err, result) {
 	if (err) throw err;
-	  console.log("Server0 IP:192.168.1.19");
+	  console.log("Server0 IP:XXX.XXX.XXX.XXX");
 	  console.log("系統時間：" + moment().format('YYYY年MM月DD日 HH:mm:ss'));
-	  console.log("Temperature:" + parseFloat(temp.toPrecision(12)) + "oC");// data对应的寄存器地址为1
-	  console.log("Humidity:" + parseFloat(RH.toPrecision(12)) + "%");	// data对应的寄存器地址为3
-	  console.log("CO2:" + CO2 + "ppm");					// data对应的寄存器地址为21
+	  console.log("Temperature:" + parseFloat(temp.toPrecision(12)) + "oC");
+	  console.log("Humidity:" + parseFloat(RH.toPrecision(12)) + "%");	
+	  console.log("CO2:" + CO2 + "ppm");					
 	  console.log("----------------------------------------------------------------------");
 	});
       connection.release();
@@ -118,11 +117,11 @@ setInterval( () => {
       let values = [[parseFloat(temp.toPrecision(12)), parseFloat(RH.toPrecision(12)), CO2]];
       connection.query(sql, [values], function (err, result) {
 	if (err) throw err;
-	  console.log("Server1 IP:192.168.1.92");
+	  console.log("Server1 IP:XXX.XXX.XXX.XXX");
 	  console.log("系統時間：" + moment().format('YYYY年MM月DD日 HH:mm:ss'));
-	  console.log("Temperature:" + parseFloat(temp.toPrecision(12)) + "oC");// data对应的寄存器地址为1
-	  console.log("Humidity:" + parseFloat(RH.toPrecision(12)) + "%");	// data对应的寄存器地址为3
-	  console.log("CO2:" + CO2 + "ppm");					// data对应的寄存器地址为21
+	  console.log("Temperature:" + parseFloat(temp.toPrecision(12)) + "oC");
+	  console.log("Humidity:" + parseFloat(RH.toPrecision(12)) + "%");	
+	  console.log("CO2:" + CO2 + "ppm");					
 	  console.log("----------------------------------------------------------------------");
 	});
       connection.release();
@@ -140,11 +139,11 @@ setInterval( () => {
       let values = [[parseFloat(temp.toPrecision(12)), parseFloat(RH.toPrecision(12)), CO2]];
       connection.query(sql, [values], function (err, result) {
 	if (err) throw err;
-	  console.log("Server2 IP:192.168.1.11");
+	  console.log("Server2 IP:XXX.XXX.XXX.XXX");
 	  console.log("系統時間：" + moment().format('YYYY年MM月DD日 HH:mm:ss'));
-	  console.log("Temperature:" + parseFloat(temp.toPrecision(12)) + "oC");// data对应的寄存器地址为1
-	  console.log("Humidity:" + parseFloat(RH.toPrecision(12)) + "%");	// data对应的寄存器地址为3
-	  console.log("CO2:" + CO2 + "ppm");					// data对应的寄存器地址为21
+	  console.log("Temperature:" + parseFloat(temp.toPrecision(12)) + "oC");
+	  console.log("Humidity:" + parseFloat(RH.toPrecision(12)) + "%");	
+	  console.log("CO2:" + CO2 + "ppm");					
 	  console.log("----------------------------------------------------------------------");
 	});
       connection.release();
