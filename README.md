@@ -104,3 +104,5 @@ No  |Register number 1-based |Register hex address |Content          |R/W |Signe
 
 ## 備註
 此程序一旦未讀取到資料，便會立即報錯。
+
+星詠工作室 : https://hoshiyostudio.com/node-js_practice/
